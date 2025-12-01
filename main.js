@@ -95,7 +95,7 @@ export async function tampilkanDaftarSiswa() {
     kolomAksi.appendChild(tombolHapus);
 
     // Susun baris
-    baris.appendChild(kolomNo);
+   
     baris.appendChild(kolomNama);
     baris.appendChild(kolomJK);
     baris.appendChild(kolomTL);
