@@ -26,9 +26,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const siswaCollection = collection(db, "biodata");
 
-// --------------------------------------------
 // TAMPILKAN DAFTAR SISWA
-// --------------------------------------------
+
 export async function tampilkanDaftarSiswa() {
   const snapshot = await getDocs(siswaCollection);
   const tabel = document.getElementById("tabelData");
@@ -116,7 +115,7 @@ export async function tambahDataSiswa() {
   const tanggallahir = document.getElementById("tanggallahir").value;
   const agama = document.getElementById("agama").value;
   const notlp = document.getElementById("notlp").value;
-  const hobi = document.getElementById("hobi").value;
+  const hobi = document.getElementById("hoby").value;
   const citacita = document.getElementById("citacita").value;
   const alamat = document.getElementById("alamat").value;
 
