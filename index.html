@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>daftar siswa</title>
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+  <div class="container">
+    <h1>daftar siswa</h1>
+    <a href="tambah.html"class="button">tambah siswa</a>
+    <table>
+      <thead>
+        <tr>
+          <th>namalengkap</th>
+         <th>jeniskelamin</th>
+         <th>tanggallahir</th>
+         <th>agama</th>
+         <th>notlp</th>
+         <th>hoby</th>
+         <th>alamat</th>
+         <th>aksi</th>
+         </tr>
+      </thead>
+      <tbody id="tabelData"></tbody>
+        </table>
+         </div>
+        
+  <script type="module">
+    import{ tampilkanDaftarSiswa } from './main.js'
+    
+      //eksekusi fungsi untuk menyimpan daftar siswa
+        tampilkanDaftarSiswa()
+    
+  </script>
+</body>
+</html>
+         
+

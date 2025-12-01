@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tambah</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Form Tambah Siswa</h1>
+    
+    <form id=formTambah>
+    
+    
+    <label>Nama Lengkap</label>
+    <input type="text" id="nama"/>
+    
+<label>Jenis Kelamin</label>
+<select name="jeniskelamin" id="jeniskelamin">
+  <option value="Laki-laki">Laki-laki</option>
+  <option value="Perempuan">Perempuan</option>
+</select>
+
+    <label>tangallahir</label>
+    <input type="text" id="tanggallahir"/>
+
+<label>agama</label>
+<select name="agama" id="agama">
+  <option value="islam">islam</option>
+  <option value="Hindu">Hindu</option>
+  <option value="Budha">Budha</option>
+    <option value="Protestan">Protestan</option>
+  <option value="Katholik">Katholik</option>
+  
+</select>
+    <label>hoby</label>
+    <input type="text" id="hoby"/>
+    
+    <label>citacita</label>
+    <input type="text" id="citacita"/>
+    
+        <label>notlp</label>
+    <input type="text" id="notlp"/>
+    
+    <label>alamat</label>
+    <input type="text" id="alamat"/>
+      
+    </select>
+    <button id="tombolSimpan">Simpan</button>
+    <a href="daftar.html">Pergi ke Halaman Daftar Siswa</a>
+    </form>
+    
+     
+  </div>
+  
+  <script type="module">
+    import{tambahDataSiswa} from './main.js';
+    // mengirimkan data siswa dari form
+    const formTambah = document.getElementById('formTambah')
+    
+    // even ketika form disubmit
+
+  formTambah.addEventListener('submit', function(e) {
+    // mencegah reload halaman
+    e.preventDefault(); 
+    
+    //eksekusi fungsi tambah data siswa 
+    tambahDataSiswa()
+    
+
+  });
+</script>
+  </script>
+</body>
+</html>
+         
