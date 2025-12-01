@@ -1,4 +1,4 @@
- // Firebase
+// Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import {
   getFirestore,
@@ -11,7 +11,7 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-// GANTI DENGAN FIREBASE CONFIG ANDA
+// KONFIGURASI FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyDf84tuPbEIrQ4b2jcU0MeXjg4OY3kE-yU",
   authDomain: "insancemerlang-7c3fb.firebaseapp.com",
@@ -20,139 +20,122 @@ const firebaseConfig = {
   messagingSenderId: "775357332019",
   appId: "1:775357332019:web:25b794ac39eceb84f00146",
   measurementId: "G-2T6Q5VM932"
-}
+};
 
- const app = initializeApp(firebaseConfig);
-const db = getFirestore(app)
-const siswaCollection = collection(db, "biodata")
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const siswaCollection = collection(db, "biodata");
 
- // fungsi untuk menampilkan daftar siswa
+// --------------------------------------------
+// TAMPILKAN DAFTAR SISWA
+// --------------------------------------------
 export async function tampilkanDaftarSiswa() {
-  // ambil snapshot data dari koleksi siswa
-  const snapshot = await getDocs(siswaCollection)
-  
-  // ambil element tabel data
-  const tabel = document.getElementById("tabelData")
-  
-  //kosongkan isi tablel 
-  tabel.innerHTML = ""
-  
-  //loop setiap dokumen dalam snapshot
-  snapshot.forEach((doc) => {
-    // variabel untuk menyimpan data 
-    const data = doc.data()
-    const id = doc.id
-    
-    // buat element baris baru
-    const baris = document.createElement("tr")
-    
-    //buat element kolom untuk nis
-    const kolomNo = document.createElement("td")
-    kolomNo.textContent = data.no
-    
-    //buat element kolom untuk nama
-    const kolomNamalengkap = document.createElement("td")
-    kolomNamalengkap.textContent = data.namalengkap
-    
-    // buat kolom kelas
-    const kolomJenisKelamin = document.createElement("td")
-    kolomJenisKelamin.textContent = data.jeniskelamin
-    
-    const kolomTanggalLahir = document.createElement("td")
-    kolomTanggalLahir. textContent = data.tanggallahir
-    
-    const kolomagama = document.createElement("td")
-    kolomagama.textContent = data.agama
-    
-    const kolomnotlp = document.createElement("td")
-    kolomnotlp.textContent = data.notlp
-    
-    const kolomhoby = document.createElement("td")
-    kolomhoby.textContent = data.hobi
-    
-    const kolomCitacita = document.createElement("td")
-    kolomCitacita.textContent = data.citacita
-    
-    const kolomalamat = document.createElement("td")
-    kolomalamat.textContent = data.alamat
-    // buat element kolom untuk Aksi
-    const kolomAksi = document.createElement("td")
-    
-    // buat tombol edit
-    const tombolEdit = document.createElement("button")
-    tombolEdit.textContent = "Edit"
-    tombolEdit.href = "edit.html?id" + id
-    tombolEdit.className = "button edit"
-    
-    //buat tombol hapus
-    const tombolHapus = document.createElement("button")
-    tombolHapus.textContent = "Hapus"
-    tombolHapus.className = "button delete"
+  const snapshot = await getDocs(siswaCollection);
+  const tabel = document.getElementById("tabelData");
+  if (!tabel) return;
+
+  tabel.innerHTML = "";
+  let nomor = 1;
+
+  snapshot.forEach((docItem) => {
+    const data = docItem.data();
+    const id = docItem.id;
+
+    const baris = document.createElement("tr");
+
+    // Kolom No
+    const kolomNo = document.createElement("td");
+    kolomNo.textContent = nomor++;
+
+    // Kolom2 lain
+    const kolomNama = document.createElement("td");
+    kolomNama.textContent = data.namalengkap || "";
+
+    const kolomJK = document.createElement("td");
+    kolomJK.textContent = data.jeniskelamin || "";
+
+    const kolomTL = document.createElement("td");
+    kolomTL.textContent = data.tanggallahir || "";
+
+    const kolomAgama = document.createElement("td");
+    kolomAgama.textContent = data.agama || "";
+
+    const kolomTlp = document.createElement("td");
+    kolomTlp.textContent = data.notlp || "";
+
+    const kolomHobi = document.createElement("td");
+    kolomHobi.textContent = data.hobi || data.hoby || ""; // DATA LAMA & BARU
+
+    const kolomCita = document.createElement("td");
+    kolomCita.textContent = data.citacita || "";
+
+    const kolomAlamat = document.createElement("td");
+    kolomAlamat.textContent = data.alamat || "";
+
+    // Kolom Aksi
+    const kolomAksi = document.createElement("td");
+
+    const tombolEdit = document.createElement("button");
+    tombolEdit.textContent = "Edit";
+    tombolEdit.className = "button edit";
+    tombolEdit.onclick = () => {
+      window.location.href = "edit.html?id=" + id;
+    };
+
+    const tombolHapus = document.createElement("button");
+    tombolHapus.textContent = "Hapus";
+    tombolHapus.className = "button delete";
     tombolHapus.onclick = async () => {
-      await hapusSiswa(id)
-    }
-      
- 
-      
-      // tambahan elemen ke dalam kolom Aksi
-      kolomAksi.appendChild(tombolEdit)
-      kolomAksi.appendChild(tombolHapus)
-      
-      //tambahan kolom ke dalam baris
-      baris.appendChild(kolomNo)
-baris.appendChild(kolomNamalengkap)
-baris.appendChild(kolomJenisKelamin)
-baris.appendChild(kolomTanggalLahir)
-baris.appendChild(kolomagama)
-baris.appendChild(kolomnotlp)
-baris.appendChild(kolomhoby)
-baris.appendChild(kolomCitacita)
-baris.appendChild(kolomalamat)
-baris.appendChild(kolomAksi)
-      
-      
-      //tambahan baris ke dalam tabel
-      tabel.appendChild(baris)
-      
-      
-  })
-}
+      if (confirm("Hapus data ini?")) {
+        await hapusSiswa(id);
+      }
+    };
 
-// fungsi untuk menambahkan data siswa
+    kolomAksi.appendChild(tombolEdit);
+    kolomAksi.appendChild(tombolHapus);
+
+    // Susun baris
+    baris.appendChild(kolomNo);
+    baris.appendChild(kolomNama);
+    baris.appendChild(kolomJK);
+    baris.appendChild(kolomTL);
+    baris.appendChild(kolomAgama);
+    baris.appendChild(kolomTlp);
+    baris.appendChild(kolomHobi);
+    baris.appendChild(kolomCita);
+    baris.appendChild(kolomAlamat);
+    baris.appendChild(kolomAksi);
+
+    tabel.appendChild(baris);
+  });
+}
+// TAMBAH DATA SISWA
 export async function tambahDataSiswa() {
-  //ambil nilai dari from
-  const namalengkap = document.getElementById("nama").value
-  const jeniskelamin = document.getElementById("jeniskelamin").value 
-  const tanggallahir = document.getElementById("tanggallahir").value
-  const agama = document.getElementById("agama").value
-  const notlp = document.getElementById("notlp").value
-  const hoby = document.getElementById("hoby").value
-  const citacita = document.getElementById("citacita").value
-  const alamat = document.getElementById("alamat").value
-  const aksi = document.getElementById("aksi")
-  // tambahkan data ke firestore
-  await addDoc(siswaCollection, {
-    namalengkap:namalengkap, 
-    jeniskelamin:jeniskelamin, 
-    tanggallahir:tanggallahir, 
-    agama:agama, 
-    notlp:notlp, 
-    hoby:hoby, 
-    citacita:citacita, 
-    alamat:alamat, 
-    aksi:aksi
-})
+  const namalengkap = document.getElementById("nama").value;
+  const jeniskelamin = document.getElementById("jeniskelamin").value;
+  const tanggallahir = document.getElementById("tanggallahir").value;
+  const agama = document.getElementById("agama").value;
+  const notlp = document.getElementById("notlp").value;
+  const hobi = document.getElementById("hobi").value;
+  const citacita = document.getElementById("citacita").value;
+  const alamat = document.getElementById("alamat").value;
 
-//alihkan ke halaman daftar siswa
-window.location.href = 'daftar.html'
+  await addDoc(siswaCollection, {
+    namalengkap,
+    jeniskelamin,
+    tanggallahir,
+    agama,
+    notlp,
+    hobi,
+    citacita,
+    alamat
+  });
+
+  window.location.href = "daftar.html";
 }
 
-//fungsi untuk menghapus data siswa
-export async function hapusSiswa(id){
-  // menghapus dokumen siswa berdasarkan id
-  await deleteDoc(doc(db, "biodata",id)) 
-  
-  //refresh daftar siswa
-  await tampilkanDaftarSiswa()
-  
+// HAPUS DATA
+export async function hapusSiswa(id) {
+  await deleteDoc(doc(db, "biodata", id));
+  await tampilkanDaftarSiswa();
 }
